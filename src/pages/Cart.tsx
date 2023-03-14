@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearItems, selectCart } from '../redux/slices/cartSlice';
+import { clearItems } from '../redux/cart/slice';
 import { Link } from 'react-router-dom';
 import { CartEmpty, CartItemBlock } from '../components';
+import { selectCart } from '../redux/cart/selectors';
 
 export const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export const Cart: React.FC = () => {
     }
   };
 
-  if(!totalPrice) {
+  if (!totalPrice) {
     return <CartEmpty />;
   }
 
