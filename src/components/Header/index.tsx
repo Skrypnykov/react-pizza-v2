@@ -7,7 +7,7 @@ import { selectCart } from '../../redux/cart/selectors';
 import { Search } from '../Search';
 
 
-export const Header = () => {
+export const Header: React.FC = () => {
   const { items, totalPrice } = useSelector(selectCart);
   const location = useLocation();
   const isMounted = React.useRef(false);

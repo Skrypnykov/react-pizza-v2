@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Categories, SortPopup, PizzaBlock, Skeleton, Pagination } from '../components';
-import { sortList } from '../components/Sort';
+import { sortList } from '../components/SortPopup';
 
 import { useAppDispatch } from '../redux/store';
 
@@ -15,7 +15,7 @@ import { setCategory, setCurrentPage, setFilters } from '../redux/filter/slice';
 import { selectFilter } from '../redux/filter/selectors';
 import { SortPropertyEnum } from '../redux/filter/types';
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isMounted = React.useRef(false);
@@ -53,9 +53,9 @@ export const Home: React.FC = () => {
   React.useEffect(() => {
     if (isMounted.current) {
       const params = {
-        page: currentPage,
-        category: categoryId,
-        sortBy: sortBy.sortProperty,
+        currentPage,
+        categoryId,
+        sort: sortBy.sortProperty,
       };
       const queryString = qs.stringify(params);
       navigate(`?${queryString}`);
@@ -63,21 +63,18 @@ export const Home: React.FC = () => {
     isMounted.current = true;
   }, [searchValue, categoryId, currentPage, sortBy.sortProperty]);
 
-  // Если был первый рендер, то проверяем URL-параметр navigateы и сохраняем в redux
+  // Если был первый рендер, то проверяем URL-параметр navigate и сохраняем в redux
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-      const sort = sortList.find((obj) => obj.sortProperty === sortBy.sortProperty);
-
-      console.log(window.location.search);
-      console.log(params);
+      const sortObj = sortList.find((obj) => obj.sortProperty === sortBy.sortProperty);
 
       dispatch(
         setFilters({
-          searchValue: searchValue,
-          categoryId: Number(categoryId),
-          currentPage: currentPage,
-          sortBy: sort || sortList[0],
+          searchValue: params.search,
+          categoryId: Number(params.categoryId),
+          currentPage: params.currentPage,
+          sortBy: sortObj || sortList[0],
         }),
       );
       isMounted.current = true;
@@ -114,3 +111,5 @@ export const Home: React.FC = () => {
     </div>
   );
 };
+
+export default Home;

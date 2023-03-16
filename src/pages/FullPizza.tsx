@@ -1,8 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Loading } from '../components';
 
-export const FullPizza: React.FC = () => {
+const FullPizza: React.FC = () => {
   const [pizza, setPizza] = React.useState<{
     imageUrl: string;
     name: string;
@@ -28,16 +29,12 @@ export const FullPizza: React.FC = () => {
   }, []);
 
   if (!pizza) {
-    return (
-      <div className="container">
-        <h2>Завантаження...</h2>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
     <div className="container">
-      <img className="pizza-block__image" src={pizza.imageUrl} />
+      <img className="pizza-block__image" src={pizza.imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{pizza.name}</h4>
       <div className="pizza-block__price">Ціна від {pizza.price} ₴</div>
       <br />
@@ -49,3 +46,5 @@ export const FullPizza: React.FC = () => {
     </div>
   );
 };
+
+export default FullPizza;

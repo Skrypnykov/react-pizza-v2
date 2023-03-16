@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { CartEmpty, CartItemBlock } from '../components';
 import { selectCart } from '../redux/cart/selectors';
 
-export const Cart: React.FC = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
 
@@ -15,6 +15,11 @@ export const Cart: React.FC = () => {
     if (window.confirm('Ти дійсно хочеш очистити кошик?')) {
       dispatch(clearItems());
     }
+  };
+
+  const onClickOrder = () => {
+    console.log('ВАШЕ ЗАМОВЛЕННЯ', items, 'Сума: ' + totalPrice + ' грн.');
+    dispatch(clearItems());
   };
 
   if (!totalPrice) {
@@ -133,7 +138,7 @@ export const Cart: React.FC = () => {
               </svg>
               <span>Повернутися</span>
             </Link>
-            <div className="button pay-btn">
+            <div onClick={onClickOrder} className="button pay-btn">
               <span>Сплатити</span>
             </div>
           </div>
@@ -142,3 +147,5 @@ export const Cart: React.FC = () => {
     </div>
   );
 };
+
+export default Cart;
