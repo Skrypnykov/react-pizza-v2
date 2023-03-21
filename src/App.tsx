@@ -29,7 +29,7 @@ const FullPizza = Loadable({
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="" element={<Home />} />
